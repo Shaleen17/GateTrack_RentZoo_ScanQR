@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentZoo — Gate Scan</title>
+    <meta name="description" content="Scan recorded at the main gate">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="page-header">
+            <div class="logo-container">
+                <img src="/assets/logo.png" alt="RentZoo" class="logo-img" style="height:40px">
+            </div>
+            <h2>🏗️ Main Gate Scan</h2>
+        </div>
+
+        <!-- Login Required (shown if driver is not logged in) -->
+        <div class="card" id="login-section" style="display:none;">
+            <h3>Login Required</h3>
+            <p class="card-desc">Enter your registered phone number to record this scan</p>
+            <form id="gate-login-form">
+                <div class="form-group">
+                    <label class="form-label" for="gate-phone">Phone Number</label>
+                    <input type="tel" class="form-input" id="gate-phone" placeholder="Enter 10-digit phone number" pattern="[0-9]{10}" required autofocus>
+                </div>
+                <button type="submit" class="btn btn-primary">Login & Record Scan</button>
+            </form>
+            <div style="text-align:center; margin-top:16px;">
+                <a href="/" style="color: var(--accent); text-decoration:none;">Not registered? Sign up here →</a>
+            </div>
+        </div>
+
+        <!-- Processing (shown while recording scan) -->
+        <div class="card" id="processing-section" style="display:none; text-align:center;">
+            <div class="spinner" style="margin: 20px auto;"></div>
+            <h3>Recording scan...</h3>
+            <p class="card-desc" id="processing-driver-name"></p>
+        </div>
+
+        <!-- Scan Result (shown after successful scan) -->
+        <div class="card scan-result" id="result-section" style="display:none;">
+            <div id="result-content"></div>
+        </div>
+
+        <!-- Quick Actions (shown after scan) -->
+        <div id="actions-section" style="display:none; text-align:center; margin-top:16px;">
+            <div style="display:flex; gap:12px; flex-direction:column;">
+                <a href="/driver.html" class="btn btn-primary">📊 View My Trips</a>
+                <a href="/" class="btn btn-sm btn-accent">🏠 Home</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast" style="display:none;"></div>
+
+    <script src="/js/gate-scan.js"></script>
+</body>
+</html>

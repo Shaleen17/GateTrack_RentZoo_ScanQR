@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentZoo — My Dashboard</title>
+    <meta name="description" content="Driver dashboard — scan QR and view trips">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <style>
+        .scan-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 20px 24px;
+            font-size: 20px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #11a3a3, #0e8a8a);
+            color: #fff;
+            box-shadow: 0 6px 24px rgba(14, 138, 138, 0.5);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .scan-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0%, 100% { transform: translate(-30%, -30%); }
+            50% { transform: translate(30%, 30%); }
+        }
+        .scan-btn:hover { transform: scale(1.02); box-shadow: 0 8px 32px rgba(14, 138, 138, 0.6); }
+        .scan-btn:active { transform: scale(0.98); }
+        .scan-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .scanner-wrapper {
+            margin-top: 16px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #0e8a8a;
+            box-shadow: 0 0 20px rgba(14,138,138,0.3);
+        }
+        .scan-result-card {
+            margin-top: 16px;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            animation: fadeIn 0.4s ease;
+        }
+        .scan-result-exit { background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); }
+        .scan-result-entry { background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="page-header">
+            <div class="logo-container">
+                <img src="/assets/logo.png" alt="RentZoo" class="logo-img" style="height:40px">
+            </div>
+            <div class="driver-info" id="driver-info">
+                <span class="status-dot"></span>
+                <span id="driver-name-header">Loading...</span>
+            </div>
+        </div>
+
+        <!-- Big Scan Button -->
+        <div class="card" id="scan-card">
+            <button class="scan-btn" id="scan-qr-btn" onclick="toggleScanner()">
+                📷 Scan Gate QR Code
+            </button>
+            <div class="scanner-wrapper" id="scanner-wrapper" style="display:none;">
+                <div id="qr-reader" style="width:100%;"></div>
+            </div>
+            <div id="scan-result-box"></div>
+        </div>
+
+        <!-- Trip Counter -->
+        <div class="card">
+            <h3 style="text-align:center; margin-bottom:4px; opacity:0.7;">Today's Trips</h3>
+            <div class="trip-counter" id="trip-count">0</div>
+            <p class="trip-label">Completed round trips</p>
+            <div id="current-status" style="text-align:center; margin-top:12px;"></div>
+        </div>
+
+        <!-- Vehicle Info -->
+        <div class="card" style="text-align:center;">
+            <div id="vehicle-info" style="font-size:18px; font-weight:600;"></div>
+        </div>
+
+        <!-- Today's Scan Log -->
+        <div class="card">
+            <h3>Today's Scan Log</h3>
+            <div id="scan-log">
+                <p class="card-desc">No scans yet today</p>
+            </div>
+        </div>
+
+        <!-- 7-Day History -->
+        <div class="card">
+            <h3>Last 7 Days</h3>
+            <div id="history-list">
+                <p class="card-desc">Loading...</p>
+            </div>
+        </div>
+
+        <!-- Logout -->
+        <div style="text-align:center; margin: 24px 0;">
+            <button class="btn btn-sm btn-danger" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div id="toast" class="toast" style="display:none;"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/driver.js"></script>
+</body>
+</html>

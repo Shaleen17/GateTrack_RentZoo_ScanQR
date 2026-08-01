@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentZoo — Driver Registration</title>
+    <meta name="description" content="Register as a driver for RentZoo trip counter system">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Page Header with Logo -->
+        <div class="page-header">
+            <div class="logo-container">
+                <img src="/assets/logo.png" alt="RentZoo" class="logo-img">
+            </div>
+            <p class="subtitle">Vehicle Trip Counter System</p>
+        </div>
+
+        <!-- Registration Card -->
+        <div class="card" id="register-card">
+            <h2>🚛 Driver Registration</h2>
+            <p class="card-desc">Register once, then scan the gate QR code for each trip</p>
+            <form id="register-form">
+                <div class="form-group">
+                    <label class="form-label" for="name">Full Name</label>
+                    <input type="text" class="form-input" id="name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="phone">Phone Number</label>
+                    <input type="tel" class="form-input" id="phone" placeholder="Enter 10-digit phone number" pattern="[0-9]{10}" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="vehicleNo">Vehicle Number</label>
+                    <input type="text" class="form-input" id="vehicleNo" placeholder="e.g. MH 12 AB 1234" required>
+                </div>
+                <button type="submit" class="btn btn-primary" id="register-btn">
+                    <span id="btn-text">Register</span>
+                    <span id="btn-spinner" class="spinner" style="display:none; width:20px; height:20px; border-width:2px;"></span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Already Registered Card -->
+        <div class="card">
+            <h3>Already Registered?</h3>
+            <p class="card-desc">Login with your phone number to view your trips</p>
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label" for="login-phone">Phone Number</label>
+                    <input type="tel" class="form-input" id="login-phone" placeholder="Enter registered phone number" pattern="[0-9]{10}" required>
+                </div>
+                <button type="submit" class="btn btn-accent" id="login-btn">Login</button>
+            </form>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="card" style="text-align: center;">
+            <p class="card-desc" style="margin-bottom:12px;">For site staff</p>
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                <a href="/admin.html" class="btn btn-sm btn-primary">👤 Admin Panel</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast" style="display:none;"></div>
+
+    <script src="/js/register.js"></script>
+</body>
+</html>
