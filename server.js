@@ -20,12 +20,28 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI).then(() => {
-  console.log('Connected to MongoDB');
-}).catch(err => {
-  console.error('MongoDB connection error:', err);
-});
+// Connect to MongoDB with retry logic
+const connectDB = async (retries = 5) => {
+  for (let i = 1; i <= retries; i++) {
+    try {
+      await mongoose.connect(process.env.MONGODB_URI, {
+        serverSelectionTimeoutMS: 10000,
+        socketTimeoutMS: 45000,
+      });
+      console.log('✅ Connected to MongoDB');
+      return;
+    } catch (err) {
+      console.error(`❌ MongoDB connection attempt ${i}/${retries} failed:`, err.message);
+      if (i < retries) {
+        console.log(`   Retrying in 3 seconds...`);
+        await new Promise(res => setTimeout(res, 3000));
+      }
+    }
+  }
+  console.error('❌ Could not connect to MongoDB after', retries, 'attempts');
+};
+
+connectDB();
 
 // Socket.io
 io.on('connection', (socket) => {
